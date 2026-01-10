@@ -288,6 +288,47 @@ app.post('/api/auth/logout', async (req, res) => {
   }
 });
 
+app.get('/api/auth/me', async (req, res) => {
+  const upstreamUrl = `${process.env.NEXT_PUBLIC_AUTH_API_URL}/v1/me`;
+  let response: Response | undefined;
+
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+
+    const token = authHeader.substring(7);
+    console.log('  → Calling:', upstreamUrl);
+
+    response = await fetch(upstreamUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log('  ← Response:', response.status, response.statusText);
+
+    if (!response.ok) {
+      return await handleProxyError(
+        new Error(`Upstream returned ${response.status}`),
+        'Auth Me',
+        upstreamUrl,
+        response,
+        res
+      );
+    }
+
+    const data = await response.json();
+    console.log('  ✓ Success');
+    res.json(data);
+  } catch (error) {
+    return await handleProxyError(error, 'Auth Me', upstreamUrl, response, res);
+  }
+});
+
 // Notifications endpoints
 app.get('/api/notifications', async (req, res) => {
   try {
