@@ -6,23 +6,23 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: STACKFORDEVS_TENANT_ID
+      - key: NEXT_PUBLIC_TENANT_ID
         sync: false
-      - key: STACKFORDEVS_PROJECT_ID
+      - key: NEXT_PUBLIC_PROJECT_ID
         sync: false
-      - key: STACKFORDEVS_API_KEY
+      - key: NEXT_PUBLIC_API_KEY
         sync: false
-      - key: STACKFORDEVS_SECRET_API_KEY
+      - key: NEXT_PUBLIC_SECRET_API_KEY
         sync: false
-      - key: STACKFORDEVS_AUTH_API_URL
+      - key: NEXT_PUBLIC_AUTH_API_URL
         value: https://auth.stackfordevs.com
-      - key: STACKFORDEVS_NOTIFICATIONS_API_URL
+      - key: NEXT_PUBLIC_NOTIFICATIONS_API_URL
         value: https://notifications.stackfordevs.com
-      - key: STACKFORDEVS_MAILER_API_URL
+      - key: NEXT_PUBLIC_MAILER_API_URL
         value: https://mailer.stackfordevs.com
-      - key: STACKFORDEVS_LLM_API_URL
+      - key: NEXT_PUBLIC_LLM_API_URL
         value: https://llm.stackfordevs.com
-      - key: STACKFORDEVS_CMS_API_URL
+      - key: NEXT_PUBLIC_CMS_API_URL
         value: https://cms.stackfordevs.com
-      - key: STACKFORDEVS_BILLING_API_URL
+      - key: NEXT_PUBLIC_BILLING_API_URL
         value: https://billing.stackfordevs.com
