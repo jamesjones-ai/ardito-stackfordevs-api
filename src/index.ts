@@ -288,6 +288,38 @@ app.post('/api/auth/logout', async (req, res) => {
   }
 });
 
+app.post('/api/auth/refresh', async (req, res) => {
+  const upstreamUrl = `${process.env.NEXT_PUBLIC_AUTH_API_URL}/v1/refresh`;
+  let response: Response | undefined;
+
+  try {
+    console.log('  → Calling:', upstreamUrl);
+    response = await fetch(upstreamUrl, {
+      method: 'POST',
+      headers: getStackForDevsHeaders(),
+      body: JSON.stringify(req.body),
+    });
+
+    console.log('  ← Response:', response.status, response.statusText);
+
+    if (!response.ok) {
+      return await handleProxyError(
+        new Error(`Upstream returned ${response.status}`),
+        'Refresh Token',
+        upstreamUrl,
+        response,
+        res
+      );
+    }
+
+    const data = await response.json();
+    console.log('  ✓ Success');
+    res.json(data);
+  } catch (error) {
+    return await handleProxyError(error, 'Refresh Token', upstreamUrl, response, res);
+  }
+});
+
 app.get('/api/auth/me', async (req, res) => {
   const upstreamUrl = `${process.env.NEXT_PUBLIC_AUTH_API_URL}/v1/me`;
   let response: Response | undefined;
